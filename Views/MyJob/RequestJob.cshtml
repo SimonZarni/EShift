@@ -1,0 +1,428 @@
+﻿@{
+    ViewData["Title"] = "Request New Job";
+}
+
+@model EShift123.Models.ViewModels.JobRequestViewModel
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-success">Request New Transport Job</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <form asp-action="RequestJob" method="post" asp-antiforgery="true" id="jobRequestForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <input type="hidden" asp-for="CustomerId" />
+
+                        <h3 class="mb-3 text-secondary">Job Details</h3>
+                        <hr />
+
+                        <div class="mb-3">
+                            <label asp-for="StartLocation" class="form-label"></label>
+                            <textarea asp-for="StartLocation" class="form-control rounded-2" rows="3" placeholder="e.g., 123 Main St, City, Country"></textarea>
+                            <span asp-validation-for="StartLocation" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Destination" class="form-label"></label>
+                            <textarea asp-for="Destination" class="form-control rounded-2" rows="3" placeholder="e.g., 456 Oak Ave, Another City, Country"></textarea>
+                            <span asp-validation-for="Destination" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="JobDate" class="form-label"></label>
+                            <input asp-for="JobDate" type="date" class="form-control rounded-2" />
+                            <span asp-validation-for="JobDate" class="text-danger small"></span>
+                        </div>
+
+                        <hr />
+                        <h3 class="mb-3 text-secondary">Load Details</h3>
+                        <div id="loadsContainer">
+                            @for (int i = 0; i < Model.Loads.Count; i++)
+                            {
+                                <div class="card mb-4 load-block border-info">
+                                    <div class="card-header bg-info text-white d-flex justify-content-between align-items-center rounded-top-2">
+                                        <strong>Load #<span class="load-index-display">@(i + 1)</span></strong>
+                                        <button type="button" class="btn btn-sm btn-light remove-load-button rounded-pill">Remove Load</button>
+                                    </div>
+                                    <div class="card-body">
+                                        <input type="hidden" name="Loads.Index" value="@i" />
+
+                                        <div class="mb-3">
+                                            <label asp-for="Loads[i].Description" class="form-label">Load Description</label>
+                                            <textarea asp-for="Loads[i].Description" class="form-control rounded-2" rows="2" placeholder="e.g., Living room furniture, fragile items"></textarea>
+                                            <span asp-validation-for="Loads[i].Description" class="text-danger small"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="Loads[i].WeightKg" class="form-label">Total Load Weight (Kg)</label>
+                                            <input asp-for="Loads[i].WeightKg" type="number" step="0.01" class="form-control rounded-2" placeholder="e.g., 250.50" />
+                                            <span asp-validation-for="Loads[i].WeightKg" class="text-danger small"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="Loads[i].PickupDate" class="form-label">Pickup Date</label>
+                                            <input asp-for="Loads[i].PickupDate" type="date" class="form-control rounded-2" value="@(Model.Loads[i].PickupDate.HasValue ? Model.Loads[i].PickupDate.Value.ToString("yyyy-MM-dd") : DateTime.Today.ToString("yyyy-MM-dd"))" />
+                                            <span asp-validation-for="Loads[i].PickupDate" class="text-danger small"></span>
+                                        </div>
+
+                                        <h5 class="mt-4 mb-3 text-secondary">Products in this Load</h5>
+                                        <div id="productsContainer_@i">
+                                            @for (int pIndex = 0; pIndex < Model.Loads[i].Products.Count; pIndex++)
+                                            {
+                                                <div class="card mb-3 product-block border-light bg-light">
+                                                    <div class="card-header bg-light text-dark d-flex justify-content-between align-items-center rounded-top-2">
+                                                        <strong>Product #<span class="product-index-display">@(pIndex + 1)</span></strong>
+                                                        <button type="button" class="btn btn-sm btn-outline-danger remove-product-button rounded-pill">Remove Product</button>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <input type="hidden" name="Loads[@i].Products.Index" value="@pIndex" />
+
+                                                        <div class="mb-3">
+                                                            <label asp-for="Loads[i].Products[pIndex].Name" class="form-label">Product Name</label>
+                                                            <input asp-for="Loads[i].Products[pIndex].Name" type="text" class="form-control rounded-2" placeholder="e.g., Sofa" />
+                                                            <span asp-validation-for="Loads[i].Products[pIndex].Name" class="text-danger small"></span>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label asp-for="Loads[i].Products[pIndex].Category" class="form-label">Category (Optional)</label>
+                                                            <input asp-for="Loads[i].Products[pIndex].Category" type="text" class="form-control rounded-2" placeholder="e.g., Furniture, Electronics" />
+                                                            <span asp-validation-for="Loads[i].Products[pIndex].Category" class="text-danger small"></span>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label asp-for="Loads[i].Products[pIndex].Description" class="form-label">Product Description (Optional)</label>
+                                                            <textarea asp-for="Loads[i].Products[pIndex].Description" class="form-control rounded-2" rows="1" placeholder="e.g., 3-seater fabric sofa"></textarea>
+                                                            <span asp-validation-for="Loads[i].Products[pIndex].Description" class="text-danger small"></span>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label asp-for="Loads[i].Products[pIndex].WeightKg" class="form-label">Unit Weight (Kg)</label>
+                                                            <input asp-for="Loads[i].Products[pIndex].WeightKg" type="number" step="0.01" class="form-control rounded-2" placeholder="e.g., 50.00" />
+                                                            <span asp-validation-for="Loads[i].Products[pIndex].WeightKg" class="text-danger small"></span>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label asp-for="Loads[i].Products[pIndex].Quantity" class="form-label">Quantity</label>
+                                                            <input asp-for="Loads[i].Products[pIndex].Quantity" type="number" class="form-control rounded-2" value="1" min="1" />
+                                                            <span asp-validation-for="Loads[i].Products[pIndex].Quantity" class="text-danger small"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                        <div class="d-grid gap-2 mt-3">
+                                            <button type="button" class="btn btn-outline-info rounded-pill py-2 add-product-button" data-load-index="@i">
+                                                <i class="bi bi-box-seam"></i> Add Product
+                                            </button>
+                                        </div>
+                                        <span class="text-danger small" data-valmsg-for="Loads[@i].Products"></span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <div class="d-grid gap-2 mb-4">
+                            <button type="button" id="addLoadButton" class="btn btn-outline-primary rounded-pill py-2">
+                                <i class="bi bi-plus-circle"></i> Add Another Load
+                            </button>
+                        </div>
+                        <span class="text-danger small" data-valmsg-for="Loads"></span>
+
+
+                        <div class="d-flex justify-content-between mt-5">
+                            <button type="submit" class="btn btn-success rounded-pill shadow-sm px-4 py-2">Submit Job Request</button>
+                            <a asp-action="Index" class="btn btn-secondary rounded-pill shadow-sm px-4 py-2">Back to My Jobs</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script id="loadTemplate" type="text/template">
+        <div class="card mb-4 load-block border-info">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center rounded-top-2">
+                <strong>Load #<span class="load-index-display"></span></strong>
+                <button type="button" class="btn btn-sm btn-light remove-load-button rounded-pill">Remove Load</button>
+            </div>
+            <div class="card-body">
+                <input type="hidden" name="Loads.Index" value="LOAD_INDEX_PLACEHOLDER" />
+
+                <div class="mb-3">
+                    <label for="Loads_LOAD_INDEX_PLACEHOLDER__Description" class="form-label">Load Description</label>
+                    <textarea name="Loads[LOAD_INDEX_PLACEHOLDER].Description" id="Loads_LOAD_INDEX_PLACEHOLDER__Description" class="form-control rounded-2" rows="2" placeholder="e.g., Living room furniture, fragile items"></textarea>
+                    <span data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].Description" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Loads_LOAD_INDEX_PLACEHOLDER__WeightKg" class="form-label">Total Load Weight (Kg)</label>
+                    <input type="number" step="0.01" name="Loads[LOAD_INDEX_PLACEHOLDER].WeightKg" id="Loads_LOAD_INDEX_PLACEHOLDER__WeightKg" class="form-control rounded-2" placeholder="e.g., 250.50" />
+                    <span data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].WeightKg" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Loads_LOAD_INDEX_PLACEHOLDER__PickupDate" class="form-label">Pickup Date</label>
+                    <input type="date" name="Loads[LOAD_INDEX_PLACEHOLDER].PickupDate" id="Loads_LOAD_INDEX_PLACEHOLDER__PickupDate" class="form-control rounded-2" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <span data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].PickupDate" class="text-danger small"></span>
+                </div>
+
+                <h5 class="mt-4 mb-3 text-secondary">Products in this Load</h5>
+                <div id="productsContainer_LOAD_INDEX_PLACEHOLDER">
+                </div>
+                <div class="d-grid gap-2 mt-3">
+                    <button type="button" class="btn btn-outline-info rounded-pill py-2 add-product-button" data-load-index="LOAD_INDEX_PLACEHOLDER">
+                        <i class="bi bi-box-seam"></i> Add Product
+                    </button>
+                </div>
+                <span class="text-danger small" data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].Products"></span>
+            </div>
+        </div>
+    </script>
+
+    <script id="productTemplate" type="text/template">
+        <div class="card mb-3 product-block border-light bg-light">
+            <div class="card-header bg-light text-dark d-flex justify-content-between align-items-center rounded-top-2">
+                <strong>Product #<span class="product-index-display"></span></strong>
+                <button type="button" class="btn btn-sm btn-outline-danger remove-product-button rounded-pill">Remove Product</button>
+            </div>
+            <div class="card-body">
+                <input type="hidden" name="Loads[LOAD_INDEX_PLACEHOLDER].Products.Index" value="PRODUCT_INDEX_PLACEHOLDER" />
+
+                <div class="mb-3">
+                    <label for="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__Name" class="form-label">Product Name</label>
+                    <input type="text" name="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].Name" id="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__Name" class="form-control rounded-2" placeholder="e.g., Sofa" />
+                    <span data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].Name" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__Category" class="form-label">Category (Optional)</label>
+                    <input type="text" name="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].Category" id="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__Category" class="form-control rounded-2" placeholder="e.g., Furniture, Electronics" />
+                    <span data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].Category" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__Description" class="form-label">Product Description (Optional)</label>
+                    <textarea name="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].Description" id="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__Description" class="form-control rounded-2" rows="1" placeholder="e.g., 3-seater fabric sofa"></textarea>
+                    <span data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].Description" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__WeightKg" class="form-label">Unit Weight (Kg)</label>
+                    <input type="number" step="0.01" name="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].WeightKg" id="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__WeightKg" class="form-control rounded-2" placeholder="e.g., 50.00" />
+                    <span data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].WeightKg" class="text-danger small"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__Quantity" class="form-label">Quantity</label>
+                    <input type="number" name="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].Quantity" id="Loads_LOAD_INDEX_PLACEHOLDER__Products_PRODUCT_INDEX_PLACEHOLDER__Quantity" class="form-control rounded-2" value="1" min="1" />
+                    <span data-valmsg-for="Loads[LOAD_INDEX_PLACEHOLDER].Products[PRODUCT_INDEX_PLACEHOLDER].Quantity" class="text-danger small"></span>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const loadsContainer = document.getElementById('loadsContainer');
+            const addLoadButton = document.getElementById('addLoadButton');
+            const loadTemplate = document.getElementById('loadTemplate').innerHTML;
+            const productTemplate = document.getElementById('productTemplate').innerHTML;
+
+            // Initialize counter based on existing loads (useful when form reloads due to validation errors)
+            let loadIndexCounter = @(Model.Loads.Count > 0 ? Model.Loads.Max(l => Model.Loads.IndexOf(l)) + 1 : 0);
+
+            // Function to re-index all inputs, labels, and validation messages within a block
+            function reIndexElements(container, newLoadIndex, newProductIndex = null) {
+                container.querySelectorAll('[name], [id], [for], [data-valmsg-for]').forEach(element => {
+                    let oldName = element.name || '';
+                    let oldId = element.id || '';
+                    let oldFor = element.htmlFor || '';
+                    let oldValMsgFor = element.dataset.valmsgFor || '';
+
+                    // Replace LOAD_INDEX_PLACEHOLDER first
+                    if (oldName) element.name = oldName.replace(/LOAD_INDEX_PLACEHOLDER/g, newLoadIndex);
+                    if (oldId) element.id = oldId.replace(/LOAD_INDEX_PLACEHOLDER/g, newLoadIndex);
+                    if (oldFor) element.htmlFor = oldFor.replace(/LOAD_INDEX_PLACEHOLDER/g, newLoadIndex);
+                    if (oldValMsgFor) element.dataset.valmsgFor = oldValMsgFor.replace(/LOAD_INDEX_PLACEHOLDER/g, newLoadIndex);
+
+                    // Then, if product index is provided, replace PRODUCT_INDEX_PLACEHOLDER
+                    if (newProductIndex !== null) {
+                        if (element.name) element.name = element.name.replace(/PRODUCT_INDEX_PLACEHOLDER/g, newProductIndex);
+                        if (element.id) element.id = element.id.replace(/PRODUCT_INDEX_PLACEHOLDER/g, newProductIndex);
+                        if (element.htmlFor) element.htmlFor = element.htmlFor.replace(/PRODUCT_INDEX_PLACEHOLDER/g, newProductIndex);
+                        if (oldValMsgFor) element.dataset.valmsgFor = element.dataset.valmsgFor.replace(/PRODUCT_INDEX_PLACEHOLDER/g, newProductIndex);
+                    }
+                });
+            }
+
+            // Updates display indices and binds event listeners for a load block.
+            function updateLoadBlock(loadBlock, index) {
+                loadBlock.querySelector('.load-index-display').textContent = index + 1;
+                loadBlock.querySelector('.remove-load-button').addEventListener('click', removeLoad);
+                const addProductBtn = loadBlock.querySelector('.add-product-button');
+                addProductBtn.dataset.loadIndex = index; // Store load index for product addition
+                addProductBtn.addEventListener('click', addProduct);
+            }
+
+            // Updates display indices and binds event listeners for a product block.
+            function updateProductBlock(productBlock, loadIndex, productIndex) {
+                productBlock.querySelector('.product-index-display').textContent = productIndex + 1;
+                productBlock.querySelector('.remove-product-button').addEventListener('click', removeProduct);
+            }
+
+            // Adds a new load block to the form.
+            function addLoad() {
+                const newLoadHtml = loadTemplate
+                    .replace(/LOAD_INDEX_PLACEHOLDER/g, loadIndexCounter)
+                    .replace(/productsContainer_LOAD_INDEX_PLACEHOLDER/g, `productsContainer_${loadIndexCounter}`); // For product container ID
+
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = newLoadHtml;
+                const newLoadBlock = tempDiv.firstElementChild;
+                loadsContainer.appendChild(newLoadBlock);
+
+                // Add an initial product to the new load
+                const productsContainer = newLoadBlock.querySelector(`#productsContainer_${loadIndexCounter}`);
+                const newProductHtml = productTemplate
+                    .replace(/LOAD_INDEX_PLACEHOLDER/g, loadIndexCounter)
+                    .replace(/PRODUCT_INDEX_PLACEHOLDER/g, 0); // Always start new load with product index 0
+                const tempProductDiv = document.createElement('div');
+                tempProductDiv.innerHTML = newProductHtml;
+                const newProductBlock = tempProductDiv.firstElementChild;
+                productsContainer.appendChild(newProductBlock);
+                updateProductBlock(newProductBlock, loadIndexCounter, 0); // Product index is 0 for first product
+
+                updateLoadBlock(newLoadBlock, loadIndexCounter);
+                loadIndexCounter++; // Increment global load counter for next new load
+
+                rebindValidation(); // Re-enable client-side validation for new elements
+            }
+
+            // Removes a load block from the form.
+            function removeLoad(event) {
+                // Ensure at least one load remains
+                if (loadsContainer.querySelectorAll('.load-block').length <= 1) {
+                    alert('At least one load is required for the job.');
+                    return;
+                }
+                const loadBlockToRemove = event.target.closest('.load-block');
+                loadBlockToRemove.remove();
+                reIndexAllLoads(); // Re-index remaining loads to maintain sequential order for model binding
+                rebindValidation();
+            }
+
+            // Adds a new product block to a specific load.
+            function addProduct(event) {
+                const currentLoadIndex = event.target.dataset.loadIndex;
+                const productsContainer = document.getElementById(`productsContainer_${currentLoadIndex}`);
+
+                // Determine the next sequential product index within this specific load
+                const existingProducts = productsContainer.querySelectorAll('.product-block');
+                let productIndex = existingProducts.length;
+
+                const newProductHtml = productTemplate
+                    .replace(/LOAD_INDEX_PLACEHOLDER/g, currentLoadIndex)
+                    .replace(/PRODUCT_INDEX_PLACEHOLDER/g, productIndex);
+
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = newProductHtml;
+                const newProductBlock = tempDiv.firstElementChild;
+                productsContainer.appendChild(newProductBlock);
+                updateProductBlock(newProductBlock, currentLoadIndex, productIndex);
+
+                rebindValidation();
+            }
+
+            // Removes a product block from a specific load.
+            function removeProduct(event) {
+                const productBlockToRemove = event.target.closest('.product-block');
+                const productsContainer = productBlockToRemove.parentNode;
+
+                // Ensure at least one product remains in the current load
+                if (productsContainer.querySelectorAll('.product-block').length <= 1) {
+                    alert('At least one product is required for each load.');
+                    return;
+                }
+
+                productBlockToRemove.remove();
+                // Re-index products within this specific load block
+                reIndexProductsInLoad(productsContainer);
+                rebindValidation();
+            }
+
+            // Re-indexes all load blocks and their contained product blocks after an add/remove operation.
+            function reIndexAllLoads() {
+                Array.from(loadsContainer.children).forEach((loadBlock, lIndex) => {
+                    // Update the load block's display and event listeners
+                    updateLoadBlock(loadBlock, lIndex);
+                    // Re-index all elements within this load block to match the new load index
+                    reIndexElements(loadBlock, lIndex);
+
+                    // Re-index products container ID
+                    // Find the existing products container by its current ID pattern
+                    const productsContainerElement = loadBlock.querySelector('[id^="productsContainer_"]');
+                    if (productsContainerElement) {
+                        productsContainerElement.id = `productsContainer_${lIndex}`; // Set the new ID
+                        // Now re-index products within this newly indexed load block
+                        reIndexProductsInLoad(productsContainerElement, lIndex);
+                    }
+                });
+                // After re-indexing all, update loadIndexCounter to reflect the new total number of loads
+                loadIndexCounter = loadsContainer.children.length;
+            }
+
+
+            // Re-indexes product blocks within a given products container.
+            function reIndexProductsInLoad(productsContainer, loadIndex = null) {
+                // If loadIndex is not provided, deduce it from the parent load block
+                if (loadIndex === null) {
+                    const loadBlock = productsContainer.closest('.load-block');
+                    // Get the current index of the loadBlock among its siblings
+                    loadIndex = Array.from(loadsContainer.children).indexOf(loadBlock);
+                }
+
+                Array.from(productsContainer.children).forEach((productBlock, pIndex) => {
+                    updateProductBlock(productBlock, loadIndex, pIndex);
+                    reIndexElements(productBlock, loadIndex, pIndex);
+                });
+            }
+
+            // Re-enables client-side validation for dynamically added elements.
+            function rebindValidation() {
+                const form = document.getElementById('jobRequestForm');
+                // Clear existing validation messages and error classes
+                form.querySelectorAll('[data-valmsg-replace]').forEach(element => element.innerHTML = '');
+                form.querySelectorAll('.input-validation-error').forEach(element => element.classList.remove('input-validation-error'));
+
+                // Re-parse the form for unobtrusive validation
+                // This function is provided by jQuery Validation Unobtrusive library.
+                if ($.validator && $.validator.unobtrusive) {
+                    $.validator.unobtrusive.parse(form);
+                }
+            }
+
+            // Initial setup when the page loads: bind events for server-rendered elements.
+            // This ensures buttons on initial loads/products are clickable.
+            document.querySelectorAll('.load-block').forEach((loadBlock, lIndex) => {
+                updateLoadBlock(loadBlock, lIndex);
+                const productsContainer = loadBlock.querySelector('[id^="productsContainer_"]');
+                productsContainer.id = `productsContainer_${lIndex}`; // Ensure correct ID
+                Array.from(productsContainer.children).forEach((productBlock, pIndex) => {
+                    updateProductBlock(productBlock, lIndex, pIndex);
+                });
+            });
+
+            // If the model loads is empty on initial GET request (i.e., first visit to the form),
+            // automatically add the first load and its first product.
+            if (loadIndexCounter === 0) {
+                addLoad();
+            }
+
+            // Attach event listener to the addLoadButton
+            addLoadButton.addEventListener('click', addLoad);
+        });
+    </script>
+}
+
+
+
+
+
+

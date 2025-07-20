@@ -1,0 +1,84 @@
+﻿@{
+    ViewData["Title"] = "Home Page"; // Keep the existing title
+}
+
+<div class="home-hero">
+    <div class="container text-center text-white">
+        <h1 class="display-3 fw-bold mb-3">Your Journey, Our Priority.</h1>
+        <p class="lead mb-4">Seamless, Reliable, and Efficient Goods Transport Solutions.</p>
+        <a asp-controller="MyJob" asp-action="RequestJob" class="btn btn-primary btn-lg custom-btn-primary">
+            Request a Job Today <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+</div>
+
+<div class="container my-5">
+    <section class="about-section text-center">
+        <h2 class="mb-4">Streamlining Your Logistics</h2>
+        <p class="lead mb-4">
+            At **EShift123**, we bridge the gap between your goods and their destination. Our cutting-edge platform connects you with a vast network of reliable transport units, ensuring your shipments are handled with precision and care, every step of the way.
+        </p>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 service-card shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-box-seam-fill service-icon"></i>
+                        <h5 class="card-title mt-3">Efficient Load Management</h5>
+                        <p class="card-text">Easily create and manage your loads with detailed specifications and tracking.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 service-card shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-truck-flatbed service-icon"></i>
+                        <h5 class="card-title mt-3">Reliable Transport Network</h5>
+                        <p class="card-text">Access a trusted network of transport units ready for your shipment.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 service-card shadow-sm">
+                    <div class="card-body">
+                        <i class="bi bi-geo-alt-fill service-icon"></i>
+                        <h5 class="card-title mt-3">Real-time Tracking</h5>
+                        <p class="card-text">Stay updated with live tracking of your jobs and loads from pickup to delivery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="text-center my-5">
+        <h2 class="mb-4 text-info">Why Choose Us?</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <blockquote class="blockquote">
+                    <p class="mb-0">"EShift123 has transformed our logistics. Their platform is intuitive, and their service is consistently reliable. Highly recommended!"</p>
+                    <footer class="blockquote-footer">Jane Doe, <cite title="Source Title">Logistics Manager, ABC Corp</cite></footer>
+                </blockquote>
+            </div>
+            <div class="col-md-6 mb-4">
+                <blockquote class="blockquote">
+                    <p class="mb-0">"Never thought freight shipping could be this easy. The real-time tracking is a game-changer!"</p>
+                    <footer class="blockquote-footer">John Smith, <cite title="Source Title">Small Business Owner</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="display-4 text-primary">500+</h3>
+                <p class="lead">Happy Customers</p>
+            </div>
+            <div class="col-md-4">
+                <h3 class="display-4 text-primary">1000+</h3>
+                <p class="lead">Loads Delivered</p>
+            </div>
+            <div class="col-md-4">
+                <h3 class="display-4 text-primary">99%</h3>
+                <p class="lead">On-Time Delivery</p>
+            </div>
+        </div>
+    </section>
+
+</div>

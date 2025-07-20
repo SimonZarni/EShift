@@ -1,0 +1,97 @@
+﻿@model EShift123.Models.RegisterViewModel
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-primary">Create an Account</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="bg-white rounded-3 shadow-sm border p-4 mb-4">
+                <form asp-action="Register" method="post" class="needs-validation" novalidate>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div asp-validation-summary="All" class="alert alert-danger"></div>
+                    }
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" placeholder="Enter your name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Phone" class="form-label"></label>
+                        <input asp-for="Phone" class="form-control" placeholder="Enter your phone" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label"></label>
+                        <input asp-for="Address" class="form-control" placeholder="Enter your address" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <label asp-for="Password" class="form-label"></label>
+                        <input asp-for="Password" type="password" class="form-control" id="passwordInputRegister" placeholder="Enter password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                        <button type="button" id="togglePasswordRegister" class="btn btn-outline-secondary position-absolute" style="top: 38px; right: 10px; z-index: 10;">
+                            <i class="bi bi-eye" id="togglePasswordIconRegister"></i>
+                        </button>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <label asp-for="ConfirmPassword" class="form-label"></label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPasswordInputRegister" placeholder="Confirm password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                        <button type="button" id="toggleConfirmPasswordRegister" class="btn btn-outline-secondary position-absolute" style="top: 38px; right: 10px; z-index: 10;">
+                            <i class="bi bi-eye" id="toggleConfirmPasswordIconRegister"></i>
+                        </button>
+                    </div>
+
+                    <script>
+                        // Register page specific password toggles
+                        const togglePasswordBtnRegister = document.getElementById('togglePasswordRegister');
+                        const passwordInputRegister = document.getElementById('passwordInputRegister');
+                        const togglePasswordIconRegister = document.getElementById('togglePasswordIconRegister');
+
+                        if (togglePasswordBtnRegister && passwordInputRegister && togglePasswordIconRegister) {
+                            togglePasswordBtnRegister.addEventListener('click', function () {
+                                const type = passwordInputRegister.getAttribute('type') === 'password' ? 'text' : 'password';
+                                passwordInputRegister.setAttribute('type', type);
+                                togglePasswordIconRegister.classList.toggle('bi-eye-slash');
+                                togglePasswordIconRegister.classList.toggle('bi-eye');
+                            });
+                        }
+
+                        const toggleConfirmPasswordBtnRegister = document.getElementById('toggleConfirmPasswordRegister');
+                        const confirmPasswordInputRegister = document.getElementById('confirmPasswordInputRegister');
+                        const toggleConfirmPasswordIconRegister = document.getElementById('toggleConfirmPasswordIconRegister');
+
+                        if (toggleConfirmPasswordBtnRegister && confirmPasswordInputRegister && toggleConfirmPasswordIconRegister) {
+                            toggleConfirmPasswordBtnRegister.addEventListener('click', function () {
+                                const type = confirmPasswordInputRegister.getAttribute('type') === 'password' ? 'text' : 'password';
+                                confirmPasswordInputRegister.setAttribute('type', type);
+                                toggleConfirmPasswordIconRegister.classList.toggle('bi-eye-slash');
+                                toggleConfirmPasswordIconRegister.classList.toggle('bi-eye');
+                            });
+                        }
+                    </script>
+
+                    <button type="submit" class="btn btn-primary rounded-2 shadow-sm">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,64 @@
+﻿@model EShift123.Models.Job
+
+@{
+    ViewData["Title"] = "Edit Job";
+    // Ensure this path correctly points to your Admin layout
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-warning">Edit Job</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post">
+                        <input type="hidden" asp-for="JobId" />
+                        <input type="hidden" asp-for="CustomerId" />
+
+                        <div class="mb-4">
+                            <label class="form-label">Customer Name: @Model.Customer?.Name</label>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="StartLocation" class="form-label"></label>
+                            <input asp-for="StartLocation" class="form-control rounded-2" />
+                            <span asp-validation-for="StartLocation" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Destination" class="form-label"></label>
+                            <input asp-for="Destination" class="form-control rounded-2" />
+                            <span asp-validation-for="Destination" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="JobDate" class="form-label"></label>
+                            <input asp-for="JobDate" type="date" class="form-control rounded-2" />
+                            <span asp-validation-for="JobDate" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Status" class="form-label"></label>
+                            <select asp-for="Status" class="form-select rounded-2" asp-items="Html.GetEnumSelectList<EShift123.Models.JobStatus>()"></select>
+                            <span asp-validation-for="Status" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-warning rounded-2 shadow-sm">Save Changes</button>
+                            <a asp-action="Index" class="btn btn-secondary rounded-2 shadow-sm">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        // Renders the client-side validation scripts (e.g., jquery.validate, jquery.validate.unobtrusive)
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

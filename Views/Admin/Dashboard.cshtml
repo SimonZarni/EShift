@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model EShift123.Models.DashboardViewModel
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-primary">Admin Dashboard</h1>
+    <h1 class="text-center mb-4 text-primary">Reports</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="bg-white rounded-3 shadow-sm border p-4 mb-4">
+                <h3 class="mb-3 text-center text-secondary">Job Summary</h3>
+                <div class="dashboard-summary text-center">
+                    <div class="mb-2">Total Jobs: <strong class="text-primary">@Model.TotalJobs</strong></div>
+                    <div class="mb-2">In Progress Jobs: <strong class="text-warning">@Model.ActiveJobs</strong></div>
+                    <div class="mb-2">Completed Jobs: <strong class="text-success">@Model.CompletedJobs</strong></div>
+                    <div class="mb-0">Cancelled Jobs: <strong class="text-danger">@Model.CancelledJobs</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

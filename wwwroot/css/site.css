@@ -1,0 +1,303 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* General Body & Typography */
+body {
+    font-family: 'Lato', sans-serif; /* Default body font for readability */
+    color: #333; /* Dark gray for standard text */
+    background-color: #f8f9fa; /* Light gray background for a clean feel */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif; /* Heading font for prominence */
+    color: #007bff; /* Primary blue for main headings */
+    margin-bottom: 1rem; /* Spacing below headings */
+}
+
+/* Container & Spacing */
+.container {
+    max-width: 1200px; /* Limits content width for better readability on large screens */
+    margin-top: 2rem; /* Spacing from top */
+    margin-bottom: 2rem; /* Spacing from bottom */
+}
+
+.section-spacing {
+    padding: 3rem 0; /* Provides vertical padding for distinct sections */
+}
+
+/* Hero Section Styles: The prominent top banner of the page */
+.hero-about {
+    /* Gradient overlay on a background image for visual depth and text readability */
+    background: linear-gradient(rgba(0, 50, 100, 0.7), rgba(0, 50, 100, 0.7)), url('/images/logistics-hero.jpg') no-repeat center center;
+    background-size: cover; /* Ensures the image covers the entire area */
+    color: white; /* White text for contrast */
+    padding: 6rem 0; /* Large vertical padding */
+    text-align: center; /* Center-aligns text */
+    margin-bottom: 3rem; /* Spacing below the hero section */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+
+    .hero-about h1 {
+        color: white; /* Overrides default blue for headings to ensure contrast on dark background */
+        font-size: 3.5rem; /* Larger font size for main title */
+        margin-bottom: 1rem;
+        font-weight: 700; /* Bold font weight */
+    }
+
+    .hero-about p {
+        font-size: 1.25rem; /* Larger font size for descriptive text */
+        opacity: 0.9; /* Slightly transparent for a softer look */
+    }
+
+/* General Section Styling */
+.about-section {
+    background-color: #fff; /* White background for content blocks */
+    border-radius: 10px; /* Slightly rounded corners */
+    box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Soft shadow for a floating effect */
+    padding: 2.5rem; /* Internal padding */
+    margin-bottom: 2rem; /* Spacing between sections */
+    /* CSS transitions for subtle hover effects */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .about-section:hover {
+        transform: translateY(-5px); /* Lifts the section slightly on hover */
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1); /* Expands shadow on hover */
+    }
+
+    .about-section h2 {
+        color: #17a2b8; /* Info blue/teal accent color for section titles */
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        position: relative; /* Needed for the ::after pseudo-element positioning */
+        padding-bottom: 0.5rem; /* Space for the underline */
+    }
+
+        .about-section h2::after { /* Creates a short underline below section titles */
+            content: '';
+            position: absolute;
+            left: 50%; /* Centers the underline */
+            bottom: 0;
+            width: 60px; /* Width of the underline */
+            height: 3px; /* Thickness of the underline */
+            background-color: #17a2b8; /* Color matches the heading */
+            transform: translateX(-50%); /* Adjusts for exact centering */
+        }
+
+/* Value List Styling: Specific styles for the list of company values */
+.values-list {
+    list-style: none; /* Removes default bullet points */
+    padding: 0;
+    /* Uses CSS Grid for a responsive, even layout of value items */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Auto-fits columns, min 250px */
+    gap: 1.5rem; /* Spacing between grid items */
+}
+
+    .values-list li {
+        background-color: #f0f8ff; /* Light blue background for each value item */
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Soft shadow for items */
+        text-align: center;
+        transition: background-color 0.3s ease; /* Smooth transition for background color change */
+    }
+
+        .values-list li:hover {
+            background-color: #e0f0ff; /* Slightly darker blue on hover */
+        }
+
+        .values-list li i {
+            font-size: 2.5rem; /* Large icon size */
+            color: #007bff; /* Primary blue for icons */
+            margin-bottom: 1rem; /* Spacing below icon */
+        }
+
+        .values-list li h4 {
+            font-size: 1.4rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .values-list li p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.6; /* Increased line height for better readability */
+        }
+
+/* Team Section Styles (Conceptual - apply if you uncomment the team section in HTML) */
+.team-member {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+    .team-member img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%; /* Makes images circular */
+        object-fit: cover; /* Ensures images fill the circle without distortion */
+        margin-bottom: 1rem;
+        border: 4px solid #17a2b8; /* Accent border around images */
+        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    .team-member h5 {
+        margin-bottom: 0.2rem;
+        color: #007bff;
+    }
+
+    .team-member p {
+        font-size: 0.9rem;
+        color: #777;
+    }
+
+/* Responsive Adjustments: Styles for smaller screens */
+@media (max-width: 768px) {
+    .hero-about {
+        padding: 4rem 0; /* Reduce padding on smaller screens */
+    }
+
+        .hero-about h1 {
+            font-size: 2.5rem; /* Smaller font for hero title */
+        }
+
+        .hero-about p {
+            font-size: 1rem; /* Smaller font for hero text */
+        }
+
+    .about-section {
+        padding: 1.5rem; /* Reduce section padding */
+    }
+
+        .about-section h2 {
+            font-size: 1.8rem; /* Smaller font for section titles */
+        }
+}
+
+/* Existing styles... */
+
+/* Home Page Hero Section */
+.home-hero {
+    background: linear-gradient(rgba(0, 50, 100, 0.8), rgba(0, 50, 100, 0.8)), url('/images/home-hero-bg.jpg') no-repeat center center; /* Ensure you have this image */
+    background-size: cover;
+    color: white;
+    padding: 8rem 0; /* More vertical padding for impact */
+    margin-bottom: 3rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+    .home-hero h1 {
+        color: white; /* Ensure heading is white */
+        font-size: 4.5rem; /* Larger font size for main welcome */
+    }
+
+    .home-hero p {
+        font-size: 1.5rem; /* Larger font size for lead text */
+    }
+
+/* Custom Button Styling */
+.custom-btn-primary {
+    background-color: #17a2b8; /* Your accent blue/teal */
+    border-color: #17a2b8;
+    font-weight: bold;
+    padding: 0.8rem 2rem;
+    border-radius: 50px; /* Pill shape */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .custom-btn-primary:hover {
+        background-color: #138496; /* Slightly darker on hover */
+        border-color: #138496;
+        transform: translateY(-2px); /* Slight lift on hover */
+    }
+
+/* Service Card Styling */
+.service-card {
+    border: none;
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .service-card:hover {
+        transform: translateY(-7px); /* More pronounced lift than generic sections */
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1); /* Stronger shadow on hover */
+    }
+
+.service-icon {
+    font-size: 3.5rem; /* Large icons for services */
+    color: #007bff; /* Primary blue for icons */
+    margin-bottom: 1rem;
+}
+
+/* Ensure the about-section styles from the About page apply here too for consistency */
+.about-section {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .about-section:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    }
+
+    .about-section h2 {
+        color: #17a2b8;
+        font-size: 2.2rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        position: relative;
+        padding-bottom: 0.5rem;
+    }
+
+        .about-section h2::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #17a2b8;
+            transform: translateX(-50%);
+        }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .home-hero {
+        padding: 6rem 0;
+    }
+
+        .home-hero h1 {
+            font-size: 3rem;
+        }
+
+        .home-hero p {
+            font-size: 1.2rem;
+        }
+    /* ... other responsive adjustments as needed from previous CSS */
+}

@@ -1,0 +1,58 @@
+﻿@model EShift123.Models.Product
+
+@{
+    ViewData["Title"] = "Edit My Product";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-primary">Edit Product</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <form asp-action="Edit" asp-route-productId="@Model.ProductId" method="post" asp-antiforgery="true">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <input type="hidden" asp-for="ProductId" /> @* Hidden field for the primary key *@
+
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control rounded-2" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Category" class="form-label"></label>
+                            <input asp-for="Category" class="form-control rounded-2" />
+                            <span asp-validation-for="Category" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control rounded-2" rows="3"></textarea>
+                            <span asp-validation-for="Description" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="WeightKg" class="form-label"></label>
+                            <input asp-for="WeightKg" type="number" step="0.01" class="form-control rounded-2" />
+                            <span asp-validation-for="WeightKg" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-primary rounded-pill shadow-sm px-4">Save Changes</button>
+                            <a asp-action="Index" class="btn btn-secondary rounded-pill shadow-sm px-4">Back to My Products</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

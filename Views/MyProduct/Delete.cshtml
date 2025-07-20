@@ -1,0 +1,46 @@
+﻿@model EShift123.Models.Product
+
+@{
+    ViewData["Title"] = "Delete My Product";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-danger">Delete Product</h1>
+    <h4 class="text-center mb-4 text-danger-emphasis">Are you sure you want to delete this product?</h4>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body p-4">
+                    <dl class="row">
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(model => model.Name)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Name)</dd>
+
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(model => model.Category)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Category)</dd>
+
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(model => model.Description)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
+
+                        <dt class="col-sm-4 text-muted">@Html.DisplayNameFor(model => model.WeightKg)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.WeightKg) Kg</dd>
+                    </dl>
+
+                    <form asp-action="Delete" method="post" asp-antiforgery="true" class="mt-4">
+                        <input type="hidden" asp-for="ProductId" />
+                        <div class="d-flex justify-content-between">
+                            <button type="submit" class="btn btn-danger rounded-pill shadow-sm px-4">Delete</button>
+                            <a asp-action="Index" class="btn btn-secondary rounded-pill shadow-sm px-4">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

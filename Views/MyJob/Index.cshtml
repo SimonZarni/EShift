@@ -1,0 +1,72 @@
+﻿@model List<EShift123.Models.Job>
+
+@{
+    ViewData["Title"] = "My Jobs";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-primary">My Job Requests</h1>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger text-center">
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success text-center">
+            @TempData["SuccessMessage"]
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center">
+            You haven't requested any jobs yet.
+        </div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover mt-4">
+            <thead class="table-light">
+                <tr>
+                    <th>Job ID</th>
+                    <th>Pick-up Location</th>
+                    <th>Delivery Location</th>
+                    <th>Job Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var job in Model)
+                {
+                    <tr>
+                        <td>@job.JobId</td>
+                        <td>@job.StartLocation</td>
+                        <td>@job.Destination</td>
+                        <td>@job.JobDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <span class="badge
+                                        @(job.Status == JobStatus.Completed ? "bg-success" :
+                                                                    job.Status == JobStatus.InProgress ? "bg-warning text-dark" :
+                                                                    "bg-secondary")">
+                        @job.Status
+                    </span>
+                </td>
+            </tr>
+                        }
+            </tbody>
+        </table>
+    }
+
+    <div class="mt-4 text-center">
+        <a asp-action="RequestJob" class="btn btn-success rounded-pill px-4">
+            Request New Job
+        </a>
+        <button type="button" onclick="history.back()" class="btn btn-secondary rounded-pill px-4">
+            Back
+        </button>
+    </div>
+</div>

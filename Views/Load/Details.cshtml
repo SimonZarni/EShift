@@ -1,0 +1,112 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model EShift123.Models.Load
+
+@{
+    ViewData["Title"] = "Load Details";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-info">Load Details</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-info text-white rounded-top-2">
+                    <h4 class="mb-0">Load #@Html.DisplayFor(model => model.LoadNumber)</h4>
+                </div>
+                <div class="card-body p-4">
+                    <dl class="row">
+                        <dt class="col-sm-4">Job ID:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.JobId)</dd>
+
+                        <dt class="col-sm-4">Customer:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Job.Customer.Name)</dd>
+
+                        <dt class="col-sm-4">Start Location:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Job.StartLocation)</dd>
+
+                        <dt class="col-sm-4">Destination:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Job.Destination)</dd>
+
+                        <dt class="col-sm-4">Load Description:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Description)</dd>
+
+                        <dt class="col-sm-4">Total Weight (Kg):</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.WeightKg)</dd>
+
+                        <dt class="col-sm-4">Pickup Date:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.PickupDate)</dd>
+
+                        @* <dt class="col-sm-4">Delivery Date:</dt>
+                        <dd class="col-sm-8">@(Model.DeliveryDate.HasValue? Model.DeliveryDate.Value.ToShortDateString() : "Not Delivered")</dd> *@
+
+                        <dt class="col-sm-4">Load Status:</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge @(Model.Status == LoadStatus.Delivered ? "bg-success" : Model.Status == LoadStatus.Cancelled ? "bg-danger" : "bg-warning text-dark")">
+                                @Html.DisplayFor(model => model.Status)
+                            </span>
+                        </dd>
+
+                        <dt class="col-sm-4">Assigned Transport Unit:</dt>
+                        <dd class="col-sm-8">
+                            @if (Model.TransportUnit != null)
+                            {
+                                <span>Unit: @(Model.TransportUnit.UnitNumber), Lorry: @(Model.TransportUnit.Lorry?.NumberPlate), Driver: @(Model.TransportUnit.Driver?.Name)</span>
+                            }
+                            else
+                            {
+                                <span>Not Assigned</span>
+                            }
+                        </dd>
+                    </dl>
+
+                    <h4 class="mt-4 mb-3 text-secondary">Associated Products</h4>
+                    @if (Model.LoadProducts != null && Model.LoadProducts.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-sm rounded-3 overflow-hidden shadow-sm">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Unit Weight (Kg)</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var lp in Model.LoadProducts)
+                                    {
+                                        <tr>
+                                            <td>@lp.Product.Name</td>
+                                            <td>@lp.Product.Category</td>
+                                            <td>@lp.Product.WeightKg</td>
+                                            <td>@lp.Quantity</td>
+                                            <td>@lp.Product.Description</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No products associated with this load.</p>
+                    }
+
+                    <div class="mt-4 d-flex justify-content-between">
+                        <a asp-action="Edit" asp-route-id="@Model.LoadId" class="btn btn-warning rounded-pill shadow-sm px-4">Edit Load</a>
+                        <a asp-action="Index" class="btn btn-secondary rounded-pill shadow-sm px-4">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.js"></script>
+}

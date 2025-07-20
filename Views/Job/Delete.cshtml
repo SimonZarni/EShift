@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model EShift123.Models.Job
+
+@{
+    ViewData["Title"] = "Delete Job";
+}
+
+<h1>Delete Job</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+
+<div>
+    <p><strong>Start Location:</strong> @Model.StartLocation</p>
+    <p><strong>Destination:</strong> @Model.Destination</p>
+    <p><strong>Date:</strong> @Model.JobDate.ToShortDateString()</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="JobId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a class="btn btn-secondary" href="@Url.Action("Index")">Cancel</a>
+</form>

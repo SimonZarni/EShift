@@ -1,0 +1,100 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model IEnumerable<EShift123.Models.Load>
+
+@{
+    ViewData["Title"] = "Manage Loads";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-primary">Manage Transport Loads</h1>
+
+    <div class="d-flex justify-content-end mb-3">
+        @* Add button for creating a new load (if applicable, though typically loads are created with jobs) *@
+        @* <a asp-action="Create" class="btn btn-primary rounded-pill shadow-sm px-4">Create New Load</a> *@
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center" role="alert">
+            No loads found in the system.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover table-striped rounded-3 overflow-hidden shadow-sm">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">Load #</th>
+                        <th scope="col">Job ID</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Weight (Kg)</th>
+                        <th scope="col">Pickup Date</th>
+                        @* <th scope="col">Delivery Date</th> *@
+                        <th scope="col">Status</th>
+                        <th scope="col">Products</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LoadNumber)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.JobId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Job.Customer.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WeightKg)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PickupDate)
+                            </td>
+                            @* <td>
+                                @(item.DeliveryDate.HasValue? item.DeliveryDate.Value.ToShortDateString() : "N/A")
+                            </td> *@
+                            <td>
+                                <span class="badge @(item.Status == LoadStatus.Delivered ? "bg-success" : item.Status == LoadStatus.Cancelled ? "bg-danger" : "bg-warning text-dark")">
+                                    @Html.DisplayFor(modelItem => item.Status)
+                                </span>
+                            </td>
+                            <td>
+                                @if (item.LoadProducts != null && item.LoadProducts.Any())
+                                {
+                                    @Html.Raw(string.Join(", ", item.LoadProducts.Select(lp => $"{lp.Product.Name} ({lp.Quantity})")))
+                                }
+                                else
+                                {
+                                    <span>No Products</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Load Actions">
+                                    <a asp-action="Details" asp-route-id="@item.LoadId" class="btn btn-info btn-sm text-white rounded-start-pill" title="View Details"><i class="bi bi-eye"></i></a>
+                                    <a asp-action="Edit" asp-route-id="@item.LoadId" class="btn btn-warning btn-sm text-dark" title="Edit Load"><i class="bi bi-pencil"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.LoadId" class="btn btn-danger btn-sm rounded-end-pill" title="Delete Load"><i class="bi bi-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.js"></script>
+}

@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Assign Transport Unit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model EShift123.Models.ViewModels.LoadEditViewModel
+
+<div class="container py-5">
+    <h1 class="text-center mb-4 text-warning">Assign Transport Unit to Load</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-warning text-dark rounded-top-2">
+                    <h4 class="mb-0">Load #@Html.DisplayFor(model => model.LoadNumber) - Edit Assignment</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Edit" method="post" asp-antiforgery="true" id="loadAssignmentForm">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <input type="hidden" asp-for="LoadId" />
+                        <input type="hidden" asp-for="JobId" />
+                        <input type="hidden" asp-for="CustomerId" />
+                        <input type="hidden" asp-for="LoadNumber" />
+                        <input type="hidden" asp-for="Description" />
+                        <input type="hidden" asp-for="WeightKg" />
+                        <input type="hidden" asp-for="PickupDate" />
+                        @* <input type="hidden" asp-for="DeliveryDate" /> *@
+                        <input type="hidden" asp-for="Status" />
+
+                        <h3 class="mb-3 text-secondary">Load Details (Read-only)</h3>
+                        <hr />
+
+                        <dl class="row">
+                            <dt class="col-sm-4">Load Number:</dt>
+                            <dd class="col-sm-8">
+                                <span class="form-control-plaintext">@Html.DisplayFor(model => model.LoadNumber)</span>
+                            </dd>
+
+                            <dt class="col-sm-4">Job ID:</dt>
+                            <dd class="col-sm-8">
+                                <span class="form-control-plaintext">@Html.DisplayFor(model => model.JobId)</span>
+                            </dd>
+
+                            <dt class="col-sm-4">Load Description:</dt>
+                            <dd class="col-sm-8">
+                                <span class="form-control-plaintext">@Html.DisplayFor(model => model.Description)</span>
+                            </dd>
+
+                            <dt class="col-sm-4">Total Weight (Kg):</dt>
+                            <dd class="col-sm-8">
+                                <span class="form-control-plaintext">@Html.DisplayFor(model => model.WeightKg)</span>
+                            </dd>
+
+                            <dt class="col-sm-4">Pickup Date:</dt>
+                            <dd class="col-sm-8">
+                                <span class="form-control-plaintext">@Html.DisplayFor(model => model.PickupDate)</span>
+                            </dd>
+
+                            @* <dt class="col-sm-4">Delivery Date:</dt>
+                            <dd class="col-sm-8">
+                                <span class="form-control-plaintext">@(Model.DeliveryDate.HasValue? Model.DeliveryDate.Value.ToShortDateString() : "N/A")</span>
+                            </dd> *@
+
+                            <dt class="col-sm-4">Load Status:</dt>
+                            <dd class="col-sm-8">
+                                <span class="badge @(Model.Status == LoadStatus.Delivered ? "bg-success" : Model.Status == LoadStatus.Cancelled ? "bg-danger" : "bg-warning text-dark")">
+                                    @Html.DisplayFor(model => model.Status)
+                                </span>
+                            </dd>
+                        </dl>
+
+                        <hr />
+                        <h3 class="mb-3 text-secondary">Assign Transport Unit</h3>
+                        <div class="mb-4">
+                            <label asp-for="TransportUnitId" class="form-label"></label>
+                            <select asp-for="TransportUnitId" asp-items="Model.TransportUnits" class="form-select rounded-2">
+                            </select>
+                            <span asp-validation-for="TransportUnitId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-5">
+                            <button type="submit" class="btn btn-warning rounded-pill shadow-sm px-4 py-2">Save Assignment</button>
+                            <a asp-action="Index" class="btn btn-secondary rounded-pill shadow-sm px-4 py-2">Back to List</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.js"></script>
+}

@@ -1,0 +1,98 @@
+﻿<!-- Views/Customer/Home.cshtml -->
+@{
+    ViewData["Title"] = "Customer Home";
+}
+@if (ViewData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@ViewData["SuccessMessage"]</div>
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 text-primary mb-3">Welcome to EShift Customer Portal!</h1>
+        <p class="lead text-muted">Your trusted partner for seamless household goods transportation.</p>
+    </div>
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0 rounded-3 text-center p-4 bg-light-blue">
+                <div class="card-body">
+                    <h2 class="card-title text-info mb-3">Ready to move?</h2>
+                    <p class="card-text text-muted mb-4">
+                        Request a new job quickly and easily. Tell us where your household goods need to go, and we'll handle the rest.
+                    </p>
+                    <a asp-controller="MyJob" asp-action="RequestJob" class="btn btn-primary btn-sm rounded-pill shadow-sm animate-pulse-on-hover">
+                        <i class="bi bi-truck me-2"></i> Request New Job Now!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row text-center mt-5">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 rounded-3 p-3">
+                <div class="card-body">
+                    <i class="bi bi-box-seam display-4 text-secondary mb-3"></i>
+                    <h3 class="h5 mb-2">Track Your Shipments</h3>
+                    <p class="card-text text-muted">Keep an eye on the status and location of your household goods.</p>
+                    <a asp-controller="MyJob" asp-action="Index" class="btn btn-outline-secondary btn-sm rounded-pill mt-3">View My Jobs</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 rounded-3 p-3">
+                <div class="card-body">
+                    <i class="bi bi-tag display-4 text-primary mb-3"></i>
+                    <h3 class="h5 mb-2">Manage My Products</h3>
+                    <p class="card-text text-muted">Define and organize the types of items you frequently transport.</p>
+                    <a asp-controller="MyProduct" asp-action="Index" class="btn btn-outline-primary btn-sm rounded-pill mt-3">My Products</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 rounded-3 p-3">
+                <div class="card-body">
+                    <i class="bi bi-person-circle display-4 text-success mb-3"></i>
+                    <h3 class="h5 mb-2">Manage Your Profile</h3>
+                    <p class="card-text text-muted">Update your contact information and preferences anytime.</p>
+                    <a asp-controller="Profile" asp-action="Index" class="btn btn-outline-success btn-sm rounded-pill mt-3">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm border-0 rounded-3 p-3">
+                <div class="card-body">
+                    <i class="bi bi-question-circle display-4 text-warning mb-3"></i>
+                    <h3 class="h5 mb-2">Need Assistance?</h3>
+                    <p class="card-text text-muted">Our support team is here to help you with any queries.</p>
+                    <a href="#" class="btn btn-outline-warning btn-sm rounded-pill mt-3">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Custom styles for aesthetic enhancements */
+    .bg-light-blue {
+        background-color: #e0f7fa; /* Light blue background */
+    }
+
+    .animate-pulse-on-hover {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .animate-pulse-on-hover:hover {
+        transform: scale(1.05); /* Slightly enlarge on hover */
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important; /* Enhance shadow on hover */
+    }
+
+    .card {
+        border: 1px solid #dee2e6; /* subtle border */
+    }
+
+    .card i {
+        font-size: 3.5rem; /* Larger icons */
+    }
+</style>
